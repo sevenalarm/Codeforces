@@ -14,14 +14,14 @@ vector<int> adj[mxn];
 vector<ll> e;
 ll ans = 0;
 
-int dfs(int i, int mom) { // 1, 0 / 2, 1 / 3, 2 / 
-    int pain = 1; // 1 / 1 / 1 / 1
+int dfs(int i, int mom) {
+    int pain = 1;
 
     for (int nei:adj[i]) 
         if (nei != mom) pain += dfs(nei, i);
     
-    e.pb((n - pain) * pain);
-    cout << i << " " << (n - pain) * pain << endl;
+    if (i != 1) e.pb((n - pain) * pain);
+    // cout << i << " " << (n - pain) << ' ' << pain << endl;
     return pain;
 }
 
@@ -38,21 +38,30 @@ int main() {
             adj[u].pb(v);
             adj[v].pb(u);
         }
-        // cin >> m;
-        // rpt(m) cin >> p[i];
-        // sort(p, p + m);
+        cin >> m;
+        rpt(m) cin >> p[i];
+        if (m < n - 1) {
+            pt = n - 2;
+            while (pt < n - 1) {
+                p[pt] = 1;
+                pt++;
+            }
+        }
+        sort(p, p + n - 1);
+        if (m > n - 1) {
+            pt = m-1;
+            while (pt >= n-1) {
+                p[pt-1] = (p[pt-1] * (p[pt] % mod)) % mod;
+                pt--;
+            }
+        }  
         dfs(1, 0);
         sort(e.begin(), e.end());
-        // pt = m-1;
-        // while (pt > n-1) {
-        //     p[pt-1] = (p[pt-1] * (p[pt] % mod)) % mod;
-        //     pt--;
-        // }
+
         // rpt(n-1) cout << p[i] << " ";
         // cout << endl;
         // rpt(n-1) cout << e[i] << " ";
-        cout << endl;
-        // rpt(n-1) ans = (ans + ((p[i] % mod) * (e[i] % mod) % mod)) % mod;
-        // cout << ans << "\n";
+        rpt(n-1) ans = (ans + ((p[i] % mod) * (e[i] % mod) % mod)) % mod;
+        cout << ans << "\n";
     }
 }
