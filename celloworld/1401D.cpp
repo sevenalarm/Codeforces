@@ -41,7 +41,7 @@ int main() {
         cin >> m;
         rpt(m) cin >> p[i];
         if (m < n - 1) {
-            pt = n - 2;
+            pt = m;
             while (pt < n - 1) {
                 p[pt] = 1;
                 pt++;
@@ -58,10 +58,11 @@ int main() {
         dfs(1, 0);
         sort(e.begin(), e.end());
 
-        // rpt(n-1) cout << p[i] << " ";
-        // cout << endl;
-        // rpt(n-1) cout << e[i] << " ";
+        rpt(n-1) cout << p[i] << " ";
+        cout << endl;
+        rpt(n-1) cout << e[i] << " ";
+        cout << endl;
         rpt(n-1) ans = (ans + ((p[i] % mod) * (e[i] % mod) % mod)) % mod;
         cout << ans << "\n";
-    }
+    }                                           
 }
