@@ -9,7 +9,8 @@ using namespace std;
 #define pb(a) push_back((a))
 
 const int mxn = 1e5 + 10;
-int p[mxn], n, m, t, u, v, pt, mod = 1e9 + 7, pain[mxn], lf, mark[mxn];
+ll n, m, t, u, v, pt, mod = 1e9 + 7, lf;
+ll p[mxn], pain[mxn], mark[mxn];
 vector<int> adj[mxn];
 vector<ll> e;
 ll ans = 0;
@@ -17,12 +18,9 @@ ll ans = 0;
 int dfs(int i) {
     mark[i] = 1;
     pain[i] = 1;
-
     for (int nei:adj[i]) 
         if (!mark[nei]) pain[i] += dfs(nei);
-    
     if (i != 1) e.push_back((n - pain[i]) * pain[i]);
-    // cout << i << " " << (n - pain) << ' ' << pain << endl;
     return pain[i];
 }
 
@@ -54,11 +52,12 @@ int main() {
                 pt++;
             }
         }
-        sort(p, p + n - 1);
+        ll sz = max(m, n-1);
+        sort(p, p + sz);
         if (m > n - 1) {
             pt = m-1;
             while (pt >= n-1) {
-                p[pt-1] = (p[pt-1] * (p[pt] % mod)) % mod;
+                p[pt-1] = p[pt-1] * (p[pt] % mod);
                 pt--;
             }
         }  
@@ -76,7 +75,7 @@ int main() {
         // cout << endl;
         // rpt(n-1) cout << e[i] << " ";
         // cout << endl;
-        rpt(n-1) ans = (ans + ((p[i] % mod) * (e[i] % mod) % mod)) % mod;
+        rpt(n-1) ans = (ans + ((p[i] % mod) * (e[i] %  mod))) % mod;
         cout << ans << "\n";
     }                                           
 }
