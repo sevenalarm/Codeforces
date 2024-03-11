@@ -9,20 +9,19 @@ using namespace std;
 #define pb(a) push_back((a))
 
 const int mxn = 1e5 + 10;
-int p[mxn], n, m, t, u, v, pt, mod = 1e9 + 7;
+ll n, m, t, u, v, pt, mod = 1e9 + 7, lf;
+ll p[mxn], pain[mxn], mark[mxn];
 vector<int> adj[mxn];
 vector<ll> e;
 ll ans = 0;
 
-int dfs(int i, int mom) { // 1, 0 / 2, 1 / 3, 2 / 
-    int pain = 1; // 1 / 1 / 1 / 1
-
+int dfs(int i) {
+    mark[i] = 1;
+    pain[i] = 1;
     for (int nei:adj[i]) 
-        if (nei != mom) pain += dfs(nei, i);
-    
-    e.pb((n - pain) * pain);
-    cout << i << " " << (n - pain) * pain << endl;
-    return pain;
+        if (!mark[nei]) pain[i] += dfs(nei);
+    if (i != 1) e.push_back((n - pain[i]) * pain[i]);
+    return pain[i];
 }
 
 int main() {
@@ -32,27 +31,51 @@ int main() {
     cin >> t;
     while (t--) {
         ans = 0;
+        e.clear();
         cin >> n;
+        rpt(n + 1) {
+            adj[i].clear();
+            mark[i] = 0;
+            pain[i] = 0;
+        }
         rpt(n - 1) {
             cin >> u >> v;
             adj[u].pb(v);
             adj[v].pb(u);
         }
-        // cin >> m;
-        // rpt(m) cin >> p[i];
-        // sort(p, p + m);
-        dfs(1, 0);
-        sort(e.begin(), e.end());
-        // pt = m-1;
-        // while (pt > n-1) {
-        //     p[pt-1] = (p[pt-1] * (p[pt] % mod)) % mod;
-        //     pt--;
+        cin >> m;
+        rpt(m) cin >> p[i];
+        if (m < n - 1) {
+            pt = m;
+            while (pt < n - 1) {
+                p[pt] = 1;
+                pt++;
+            }
+        }
+        ll sz = max(m, n-1);
+        sort(p, p + sz);
+        if (m > n - 1) {
+            pt = m-1;
+            while (pt >= n-1) {
+                p[pt-1] = p[pt-1] * (p[pt] % mod);
+                pt--;
+            }
+        }  
+        // rpt(n-1) {
+        //     if (adj[i].size() == 1) {
+        //         lf = i;
+        //         dfs(lf, 0);
+        //         break;
+        //     }
         // }
+        dfs(1);
+        sort(e.begin(), e.end());
+
         // rpt(n-1) cout << p[i] << " ";
         // cout << endl;
         // rpt(n-1) cout << e[i] << " ";
-        cout << endl;
-        // rpt(n-1) ans = (ans + ((p[i] % mod) * (e[i] % mod) % mod)) % mod;
-        // cout << ans << "\n";
-    }
+        // cout << endl;
+        rpt(n-1) ans = (ans + ((p[i] % mod) * (e[i] %  mod))) % mod;
+        cout << ans << "\n";
+    }                                           
 }
