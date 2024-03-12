@@ -8,11 +8,15 @@ using namespace std;
 #define sd second
 // 5 1 4 2 3
 int rp1, rp2, mid, l2, r2;
+map<pair<int, int>, int> mp;
 
 int solve(int l, int r) { 
     if (l == r) return l;
-    cout << "? " << l << " " << r << endl;
-    cin >> rp1; 
+    if (!mp[{l, r}]) {
+        cout << "? " << l << " " << r << endl;
+        cin >> rp1; 
+        mp[{l, r}] = rp1;
+    } else rp1 = mp[{l, r}]; 
     if (l + 1 == r) return l + r - rp1;
     else {
         mid = (l + r) / 2; 
@@ -20,8 +24,12 @@ int solve(int l, int r) {
         if (rp1 <= mid) r2 = mid;
         else l2 = mid + 1;
         if (l2 != r2) {
-            cout << "? " << l2 << " " << r2 << endl;
-            cin >> rp2;
+            if (!mp[{l2, r2}]) {
+                cout << "? " << l2 << " " << r2 << endl;
+                cin >> rp2; 
+                mp[{l2, r2}] = rp2;
+            } else rp2 = mp[{l2, r2}];
+
             if (rp1 == rp2) return solve(l2, r2);
             else {
                 if (rp1 <= mid) return solve(mid + 1, r);
