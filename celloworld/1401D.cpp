@@ -61,20 +61,8 @@ int main() {
                 pt--;
             }
         }  
-        // rpt(n-1) {
-        //     if (adj[i].size() == 1) {
-        //         lf = i;
-        //         dfs(lf, 0);
-        //         break;
-        //     }
-        // }
         dfs(1);
         sort(e.begin(), e.end());
-
-        // rpt(n-1) cout << p[i] << " ";
-        // cout << endl;
-        // rpt(n-1) cout << e[i] << " ";
-        // cout << endl;
         rpt(n-1) ans = (ans + ((p[i] % mod) * (e[i] %  mod))) % mod;
         cout << ans << "\n";
     }                                           
