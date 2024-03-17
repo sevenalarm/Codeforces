@@ -10,35 +10,40 @@ using namespace std;
 
 const int mxn = 1e5 + 10;
 const int mxm = 3e5 + 10;
-int n, m, mark[mxn], dor[mxn], k, tmp, u, v;
+int n, m, mark[mxn], dor[mxn], k, tmp, u, v, color = 1;
 vector<int> adj[mxn];
-vector<pair<int, int>> edges;
+set<pair<int, int>> edges;
 bool poss = true;
 
-void dfs(int i) {
-    mark[i] = true;
-    for (int nei : adj[i]) {
+void dfs(int i) { // 1 / 2 / 3 / 5 / 4 
+    mark[i] = color; // 1:1, 2:2, 3:3, 5:4, 4:5, 6:6
+    color++; // 7
+    for (int nei : adj[i]) { // 2 / 3 / 5 / 4 / 2
         if (!mark[nei]) {
-            edges.pb({i, nei});
-            dor[i] = nei;
+            edges.insert({i, nei}); 
+            dor[nei] = i; // 2:0 , 3:0 , 4:0 , 5:3 , 6:0
             dfs(nei);
-            if (dor[i] != 0) {
+            if (dor[nei] != 0) {
+                cout << i << "! " << nei << ":" << dor[nei] << endl;
                 poss = false;
                 break;
             }
         } else {
-            if (dor[nei] != i) {
-                edges.pb({i, nei});
-                k = nei;
-                while (dor[k]) {
-                    tmp = k;
-                    k = dor[k];
-                    dor[tmp] = 0;
-                }
-                cout << nei << " " << dor[nei] << " ";
+            if (dor[i] != nei && mark[nei] <= mark[i]) {
+                if (edges.find({nei,i}) == edges.end()) edges.insert({i, nei});
+                k = i; // 4
+                while (dor[k] && k != nei) { 
+                    tmp = dor[k]; // 4
+                    dor[k] = 0; //  
+                    k = tmp; // 4
+                } 
+                cout << nei << " " << i << "| " << endl;
+            } else if (dor[i] != nei && mark[nei] > mark[i]) {
+                cout << nei << ':' << mark[nei] << " " << i << ':' << mark[i] << endl;
             }
         }
     }
+    color--;
 }
 
 int main() {
@@ -53,6 +58,7 @@ int main() {
     }
 
     dfs(1);
+    cout << endl;
     if (!poss) cout << 0;
     else {
         for (pair<int, int> x : edges) cout << x.ft << " " << x.sd << "\n";
