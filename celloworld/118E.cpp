@@ -10,40 +10,28 @@ using namespace std;
 
 const int mxn = 1e5 + 10;
 const int mxm = 3e5 + 10;
-int n, m, mark[mxn], dor[mxn], k, tmp, u, v, color = 1;
+int n, m, mark[mxn], cmn[mxn], baba[mxn], k, tmp, u, v, color = 1;
 vector<int> adj[mxn];
 set<pair<int, int>> edges;
 bool poss = true;
 
-void dfs(int i) { // 1 / 2 / 3 / 5 / 4 
-    mark[i] = color; // 1:1, 2:2, 3:3, 5:4, 4:5, 6:6
-    color++; // 7
-    for (int nei : adj[i]) { // 2 / 3 / 5 / 4 / 2
+int dfs(int i) { 
+    mark[i] = color; 
+    cmn[i] = color; 
+    color++;
+    for (int nei : adj[i]) {
         if (!mark[nei]) {
-            edges.insert({i, nei}); 
-            dor[nei] = i; // 2:0 , 3:0 , 4:0 , 5:3 , 6:0
-            dfs(nei);
-            if (dor[nei] != 0) {
-                cout << i << "! " << nei << ":" << dor[nei] << endl;
-                poss = false;
-                break;
-            }
-        } else {
-            if (dor[i] != nei && mark[nei] <= mark[i]) {
-                if (edges.find({nei,i}) == edges.end()) edges.insert({i, nei});
-                k = i; // 4
-                while (dor[k] && k != nei) { 
-                    tmp = dor[k]; // 4
-                    dor[k] = 0; //  
-                    k = tmp; // 4
-                } 
-                cout << nei << " " << i << "| " << endl;
-            } else if (dor[i] != nei && mark[nei] > mark[i]) {
-                cout << nei << ':' << mark[nei] << " " << i << ':' << mark[i] << endl;
-            }
+            baba[nei] = i;
+            k = dfs(nei);
+            cmn[i] = min(cmn[i], k);
+            if (k < color) edges.insert({i, nei});
+        } else if (nei != baba[i]) {
+            cmn[i] = min(cmn[i], mark[nei]);
+            if (edges.find({nei, i}) == edges.end()) edges.insert({i, nei});
         }
     }
     color--;
+    return cmn[i];
 }
 
 int main() {
@@ -58,8 +46,7 @@ int main() {
     }
 
     dfs(1);
-    cout << endl;
-    if (!poss) cout << 0;
+    if (edges.size() != m) cout << 0;
     else {
         for (pair<int, int> x : edges) cout << x.ft << " " << x.sd << "\n";
     }
