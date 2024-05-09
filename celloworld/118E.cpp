@@ -10,35 +10,28 @@ using namespace std;
 
 const int mxn = 1e5 + 10;
 const int mxm = 3e5 + 10;
-int n, m, mark[mxn], dor[mxn], k, tmp, u, v;
+int n, m, mark[mxn], cmn[mxn], baba[mxn], k, tmp, u, v, color = 1;
 vector<int> adj[mxn];
-vector<pair<int, int>> edges;
+set<pair<int, int>> edges;
 bool poss = true;
 
-void dfs(int i) {
-    mark[i] = true;
+int dfs(int i) { 
+    mark[i] = color; 
+    cmn[i] = color; 
+    color++;
     for (int nei : adj[i]) {
         if (!mark[nei]) {
-            edges.pb({i, nei});
-            dor[i] = nei;
-            dfs(nei);
-            if (dor[i] != 0) {
-                poss = false;
-                break;
-            }
-        } else {
-            if (dor[nei] != i) {
-                edges.pb({i, nei});
-                k = nei;
-                while (dor[k]) {
-                    tmp = k;
-                    k = dor[k];
-                    dor[tmp] = 0;
-                }
-                cout << nei << " " << dor[nei] << " ";
-            }
+            baba[nei] = i;
+            k = dfs(nei);
+            cmn[i] = min(cmn[i], k);
+            if (k < color) edges.insert({i, nei});
+        } else if (nei != baba[i]) {
+            cmn[i] = min(cmn[i], mark[nei]);
+            if (edges.find({nei, i}) == edges.end()) edges.insert({i, nei});
         }
     }
+    color--;
+    return cmn[i];
 }
 
 int main() {
@@ -53,7 +46,7 @@ int main() {
     }
 
     dfs(1);
-    if (!poss) cout << 0;
+    if (edges.size() != m) cout << 0;
     else {
         for (pair<int, int> x : edges) cout << x.ft << " " << x.sd << "\n";
     }
