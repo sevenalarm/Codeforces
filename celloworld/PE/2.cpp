@@ -8,12 +8,19 @@ using namespace std;
 #define sd second
 #define pb push_back
 
+ll sum = 2, a = 1, b = 2, tmp;
+int n = 4 * 1e6;
+
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0);
     cout.tie(0);
 
-    int n;
-    cin >> n;
-    cout << n;
+    while (a + b <= n) {
+        if ((a + b) % 2 == 0) sum += a + b;
+        tmp = a + b; // 2
+        a = b; // 1
+        b = tmp; //2
+    }
+    cout << sum;
 }
