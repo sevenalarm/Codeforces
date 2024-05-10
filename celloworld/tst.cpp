@@ -1,19 +1,36 @@
-#include <bits/stdc++.h>
-using namespace std;
-
-#define ll long long
-#define rpt(a) for (int i=0; i<(a); i++)
-#define range(a, b) for (int j=(a); j<(b); j++)
-#define ft first
-#define sd second
-#define pb push_back
+#include <iostream>
+#include <sstream>
 
 int main() {
-    ios_base::sync_with_stdio(0);
-    cin.tie(0);
-    cout.tie(0);
+    const int rows = 4;
+    const int cols = 4;
+    int a[rows][cols];
 
-    int n;
-    cin >> n;
-    cout << n;
+    std::string line;
+    for (int i = 0; i < rows; ++i) {
+        if (!std::getline(std::cin, line)) {
+            std::cerr << "Input error: Insufficient rows provided." << std::endl;
+            return 1;
+        }
+
+        std::istringstream ss(line);
+        std::string value;
+        for (int j = 0; j < cols; ++j) {
+            if (!std::getline(ss, value, ',')) {
+                std::cerr << "Input error: Insufficient columns in row " << i + 1 << std::endl;
+                return 1;
+            }
+            a[i][j] = std::stoi(value);
+        }
+    }
+
+    // Printing the matrix for verification
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            std::cout << a[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
+
+    return 0;
 }
