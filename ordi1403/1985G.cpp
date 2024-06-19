@@ -9,14 +9,13 @@ using namespace std;
 #define pb push_back
 #define fori(a, b) for (int i=(a); i<(b); i++)
 
-ll f[50];
-int delta = 10979;
-
-bool fib(int n) {
-    fori(1, 50) {
-        if (n % f[i] == 0) return false;
+int D(ll n) {
+    int sum = 0;
+    while (n) {
+        sum += n % 10;
+        n /= 10;
     }
-    return true;
+    return sum;
 }
 
 int main() {
@@ -24,14 +23,10 @@ int main() {
     cin.tie(0);
     cout.tie(0);
 
-    f[0] = 1;
-    f[1] = 2;
-    fori(2, 50) f[i] = f[i-1] + f[i-2];
-    double cnt = 0;
-    fori(1e5, 1e6) {
-        if (fib(i)) cnt++;
+    int t, l, r, k;
+    cin >> t;
+    while (t--) {
+        cin >> l >> r >> k;
+        
     }
-    cout << cnt << " ";
-    cout << fixed << setprecision(10) << cnt / (9e5) * 100;
-
 }

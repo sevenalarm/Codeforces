@@ -10,13 +10,19 @@ using namespace std;
 #define fori(a, b) for (int i=(a); i<(b); i++)
 
 ll f[50];
-int delta = 10979;
 
-bool fib(int n) {
-    fori(1, 50) {
-        if (n % f[i] == 0) return false;
+void fib(int n) {
+    int i = 49;
+    while (n) {
+        if (f[i] == n) {
+            cout << f[i];
+            n = 0;
+        } else if (f[i] < n) {
+            cout << f[i] << " + ";
+            n -= f[i];
+        }
+        i--;
     }
-    return true;
 }
 
 int main() {
@@ -27,11 +33,8 @@ int main() {
     f[0] = 1;
     f[1] = 2;
     fori(2, 50) f[i] = f[i-1] + f[i-2];
-    double cnt = 0;
-    fori(1e5, 1e6) {
-        if (fib(i)) cnt++;
-    }
-    cout << cnt << " ";
-    cout << fixed << setprecision(10) << cnt / (9e5) * 100;
 
+    int n;
+    cin >> n;
+    fib(n);
 }

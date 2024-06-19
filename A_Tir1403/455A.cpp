@@ -9,29 +9,24 @@ using namespace std;
 #define pb push_back
 #define fori(a, b) for (int i=(a); i<(b); i++)
 
-ll f[50];
-int delta = 10979;
-
-bool fib(int n) {
-    fori(1, 50) {
-        if (n % f[i] == 0) return false;
-    }
-    return true;
-}
+const int mxn = 1e5 + 10;
+ll cnt[mxn], a[mxn], zoj, fard, ans, dp[mxn];
 
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0);
     cout.tie(0);
 
-    f[0] = 1;
-    f[1] = 2;
-    fori(2, 50) f[i] = f[i-1] + f[i-2];
-    double cnt = 0;
-    fori(1e5, 1e6) {
-        if (fib(i)) cnt++;
+    int n;
+    cin >> n;
+    rpt(n) {
+        cin >> a[i];
+        cnt[a[i]]++;
     }
-    cout << cnt << " ";
-    cout << fixed << setprecision(10) << cnt / (9e5) * 100;
 
+    dp[0] = 0;
+    dp[1] = cnt[1];
+    fori(1, mxn) dp[i] = max(dp[i-1], dp[i-2] + cnt[i] * i);
+    cout << dp[mxn - 1];
 }
+
