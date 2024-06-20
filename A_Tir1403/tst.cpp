@@ -15,6 +15,6 @@ int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0);
     cout.tie(0);
-    int x = 100;
-    cout << a[x][2];
+    double x = sqrt(-1);
+    cout << (x == 0);
 }
