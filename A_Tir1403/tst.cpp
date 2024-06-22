@@ -9,12 +9,13 @@ using namespace std;
 #define pb push_back
 #define fori(a, b) for (int i=(a); i<(b); i++)
 
-int a[1000][100];
-
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0);
     cout.tie(0);
-    double x = sqrt(-1);
-    cout << (x == 0);
+
+    int a, b;
+    a = 1e5, b = 1e5;
+    bool x = !(a * b);
+    cout << a * b;
 }
