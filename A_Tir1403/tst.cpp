@@ -13,9 +13,4 @@ int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0);
     cout.tie(0);
-
-    int a, b;
-    a = 1e5, b = 1e5;
-    bool x = !(a * b);
-    cout << a * b;
 }
