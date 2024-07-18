@@ -9,18 +9,10 @@ using namespace std;
 #define pb push_back
 #define fori(a, b) for (int i=(a); i<(b); i++)
 
-const int mxn = 1e4 + 10;
-int c[mxn], m, n;
-ll ans, dp[mxn];
-multiset<ll> st;
-
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0);
     cout.tie(0);
 
-    ll ans = 1;
-    for (ll i = 2; i < 21; i++) ans = ans * i / (__gcd(ans, i));
-    cout << ans;
-    
+    cout << stoi("1001", 0, 2);
 }

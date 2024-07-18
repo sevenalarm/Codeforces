@@ -9,18 +9,21 @@ using namespace std;
 #define pb push_back
 #define fori(a, b) for (int i=(a); i<(b); i++)
 
-const int mxn = 1e4 + 10;
-int c[mxn], m, n;
-ll ans, dp[mxn];
-multiset<ll> st;
+const int mxn = 11e3 + 10;
+int n, t, k;
+ll dp[mxn];
 
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0);
     cout.tie(0);
 
-    ll ans = 1;
-    for (ll i = 2; i < 21; i++) ans = ans * i / (__gcd(ans, i));
-    cout << ans;
-    
+    cin >> t;
+    while (t--) {
+        cin >> n >> k;
+        dp[1] = 0;
+        fori(2, k+1) dp[i] = 1;
+        fori(k+1, n+1) dp[i] = dp[i - k + 1] + 1;
+        cout << dp[n] << "\n";
+    }
 }
